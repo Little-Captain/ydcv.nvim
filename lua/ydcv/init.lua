@@ -1,16 +1,10 @@
 local M = {}
 
-function M.ydcv(word)
-  if vim.api.nvim_get_mode().mode ~= 'n' then
-    return ''
-  end
+function M.query(word)
   return vim.fn.system("/home/lc/Code/dotfiles/bin/dict '" .. word .. "'")
 end
 
-function M.pop(replacement)
-  if replacement == '' then
-    return
-  end
+function M.pop(contents)
   local Popup = require 'nui.popup'
   local event = require('nui.utils.autocmd').event
   M.popui = Popup {
@@ -29,7 +23,14 @@ function M.pop(replacement)
   M.popui:on(event.BufLeave, function()
     M.popui:unmount()
   end)
-  vim.api.nvim_buf_set_lines(M.popui.bufnr, 0, -1, false, replacement)
+  vim.api.nvim_buf_set_lines(M.popui.bufnr, 0, -1, false, contents)
+end
+
+function M.ydcv(word)
+  if word == '' then
+    return
+  end
+  M.pop(vim.fn.split(M.query(word), '\n'))
 end
 
 return M
