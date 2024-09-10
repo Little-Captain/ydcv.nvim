@@ -37,7 +37,7 @@ function M.ydcv(word)
   if vim.api.nvim_get_mode().mode ~= 'n' then
     return ''
   end
-  return vim.fn.system('/home/lc/Code/dotfiles/bin/dict ' .. word)
+  return vim.fn.system("/home/lc/Code/dotfiles/bin/dict '" .. word .. "'")
 end
 
 function M.pop(replacement)
