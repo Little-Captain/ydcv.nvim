@@ -33,11 +33,10 @@ function M.ydcv(word)
   M.pop(vim.fn.split(M.query(word), '\n'))
 end
 
-function M.input()
+function M.input(callback)
   local Input = require 'nui.input'
   local event = require('nui.utils.autocmd').event
 
-  M.input_word = nil
   local input = Input({
     position = '50%',
     size = { width = 30 },
@@ -53,7 +52,7 @@ function M.input()
     prompt = '> ',
     default_value = '',
     on_submit = function(value)
-      M.input_word = value
+      callback(value or '')
     end,
   })
 
