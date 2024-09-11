@@ -33,4 +33,34 @@ function M.ydcv(word)
   M.pop(vim.fn.split(M.query(word), '\n'))
 end
 
+function M.input()
+  local Input = require 'nui.input'
+  local event = require('nui.utils.autocmd').event
+
+  M.input_word = nil
+  local input = Input({
+    position = '50%',
+    size = { width = 30 },
+    border = {
+      style = 'single',
+      text = {
+        top = '[Please input word]',
+        top_align = 'center',
+      },
+    },
+    win_options = { winhighlight = 'Normal:Normal,FloatBorder:Normal' },
+  }, {
+    prompt = '> ',
+    default_value = '',
+    on_submit = function(value)
+      M.input_word = value
+    end,
+  })
+
+  input:mount()
+  input:on(event.BufLeave, function()
+    input:unmount()
+  end)
+end
+
 return M
