@@ -7,7 +7,7 @@ end
 function M.pop(contents)
   local Popup = require 'nui.popup'
   local event = require('nui.utils.autocmd').event
-  M.popui = Popup {
+  local popui = Popup {
     enter = true,
     focusable = true,
     border = {
@@ -19,11 +19,11 @@ function M.pop(contents)
       height = '60%',
     },
   }
-  M.popui:mount()
-  M.popui:on(event.BufLeave, function()
-    M.popui:unmount()
+  popui:mount()
+  popui:on(event.BufLeave, function()
+    popui:unmount()
   end)
-  vim.api.nvim_buf_set_lines(M.popui.bufnr, 0, -1, false, contents)
+  vim.api.nvim_buf_set_lines(popui.bufnr, 0, -1, false, contents)
 end
 
 function M.ydcv(word)
